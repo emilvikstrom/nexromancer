@@ -7,10 +7,7 @@ defmodule Nexromancer.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      # Starts a worker by calling: Nexromancer.Worker.start_link(arg)
-      # {Nexromancer.Worker, arg}
-    ]
+    children = []
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

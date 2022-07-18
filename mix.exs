@@ -22,7 +22,9 @@ defmodule Nexromancer.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.8"}
+      {:hammox, "~> 0.6.1", only: :test},
+      {:httpoison, "~> 1.8"},
+      {:horde, "~> 0.8.7"}
     ]
   end
 end
