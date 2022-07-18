@@ -2,7 +2,7 @@ import Config
 
 config :libcluster,
   topologies: [
-    local_epmd_example: [
+    local_epmd: [
       strategy: Elixir.Cluster.Strategy.LocalEpmd
     ]
   ]
