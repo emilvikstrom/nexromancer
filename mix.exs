@@ -24,6 +24,7 @@ defmodule Nexromancer.MixProject do
     [
       {:hammox, "~> 0.6.1", only: :test},
       {:httpoison, "~> 1.8"},
+      {:libcluster, "~> 3.3"},
       {:horde, "~> 0.8.7"}
     ]
   end
