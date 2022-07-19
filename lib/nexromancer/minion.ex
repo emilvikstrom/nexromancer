@@ -1,12 +1,12 @@
 defmodule Nexromancer.Minion do
   use GenServer
 
-  alias Nexromancer.Horde.Order
+  alias Nexromancer.Order
 
-  defstruct [:http_client, :order, state: :idle, timer: 500]
+  defstruct [:timer, :http_client, :order, state: :idle]
 
-  def start(%Order{} = order, http_client \\ HTTPoison) do
-    GenServer.start(__MODULE__, [order, http_client])
+  def start(%Order{} = order, timer \\ 500, http_client \\ HTTPoison) do
+    GenServer.start(__MODULE__, [order, timer, http_client])
   end
 
   def stop(pid) do
@@ -22,8 +22,8 @@ defmodule Nexromancer.Minion do
   end
 
   @impl true
-  def init([order, http_client]) do
-    {:ok, %__MODULE__{order: order, http_client: http_client}}
+  def init([order, timer, http_client]) do
+    {:ok, %__MODULE__{order: order, timer: timer, http_client: http_client}}
   end
 
   @impl true
@@ -48,6 +48,19 @@ defmodule Nexromancer.Minion do
   end
 
   defp perform(%Order{} = order, http_client) do
-    http_client.get!(order.url) |> IO.inspect()
+    result = http_client.get!(order.url)
+    handle_result(order, result)
+  end
+
+  defp handle_result(%Order{expectation: nil}, result) do
+    Nexromancer.Scribe.log("Got #{result.status_code}")
+  end
+
+  defp handle_result(order, result) do
+    if(result.status_code != order.expectation.status) do
+      Nexromancer.Scribe.log("Expected #{order.expectation.status} got #{result.status_code}")
+    else
+      Nexromancer.Scribe.log("OK")
+    end
   end
 end

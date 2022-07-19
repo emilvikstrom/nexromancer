@@ -28,6 +28,9 @@ defmodule Nexromancer.Application do
     Nexromancer.child_spec(name: Nexromancer)
     |> Nexromancer.Supervisor.start_child()
 
+    Nexromancer.Scribe.child_spec()
+    |> Nexromancer.Supervisor.start_child()
+
     supervisor_result
   end
 end

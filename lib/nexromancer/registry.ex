@@ -2,7 +2,6 @@ defmodule Nexromancer.Registry do
   use Horde.Registry
 
   def start_link(_) do
-    IO.inspect("start link", label: __MODULE__)
     Horde.Registry.start_link(__MODULE__, [keys: :unique], name: __MODULE__)
   end
 

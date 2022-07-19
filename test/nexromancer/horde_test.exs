@@ -2,7 +2,7 @@ defmodule Nexromancer.HordeTest do
   use ExUnit.Case
 
   setup_all do
-    order = %Nexromancer.Horde.Order{
+    order = %Nexromancer.Order{
       url: "http://test",
       method: :get
     }
