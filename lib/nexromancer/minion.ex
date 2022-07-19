@@ -9,6 +9,10 @@ defmodule Nexromancer.Minion do
     GenServer.start(__MODULE__, [order, timer, http_client])
   end
 
+  def start_link(%Order{} = order, timer \\ 500, http_client \\ HTTPoison) do
+    GenServer.start_link(__MODULE__, [order, timer, http_client])
+  end
+
   def stop(pid) do
     GenServer.stop(pid)
   end
