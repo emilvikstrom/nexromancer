@@ -54,8 +54,8 @@ State: %Nexromancer.Minion{http_client: HTTPoison, order: %Nexromancer.Order{bod
 
 ## TODO
 
-Distribute workers on all available nodes
-Add detection for nodedown/nodeup to rebalance workers
+* Distribute workers on all available nodes
+* Add detection for nodedown/nodeup to rebalance workers
 
 
 
