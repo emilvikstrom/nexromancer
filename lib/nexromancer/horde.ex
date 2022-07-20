@@ -77,10 +77,10 @@ defmodule Nexromancer.Horde do
   end
 
   defp create_minions(amount, order, http_client),
-    do: for(_ <- 1..amount, do: create_minion(order, http_client))
+    do: for(_ <- 1..amount, do: create_minion(order, 500, http_client))
 
-  defp create_minion(order, http_client) do
-    {:ok, pid} = Minion.start(order, http_client)
+  defp create_minion(order, _timer, http_client) do
+    {:ok, pid} = Minion.start(order, 500, http_client)
     pid
   end
 end

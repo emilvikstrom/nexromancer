@@ -1,6 +1,8 @@
 defmodule Nexromancer.Minion do
   use GenServer
 
+  require Logger
+
   alias Nexromancer.Order
 
   defstruct [:timer, :http_client, :order, state: :idle]
@@ -42,12 +44,23 @@ defmodule Nexromancer.Minion do
 
   @impl true
   def handle_info(:request, %{state: :running} = state) do
+    IO.inspect(state, label: __MODULE__)
+
+    IO.inspect("#{inspect(self())}, :request, #{state.timer}",
+      label: "#{__MODULE__}:send_after arg"
+    )
+
     Process.send_after(self(), :request, state.timer)
     perform(state.order, state.http_client)
     {:noreply, state}
   end
 
   def handle_info(_, %{state: :idle} = state) do
+    {:noreply, state}
+  end
+
+  def handle_info(msg, state) do
+    Logger.error("Got unknown message #{inspect(msg)}\n State: #{inspect(state)}")
     {:noreply, state}
   end
 
