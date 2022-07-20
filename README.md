@@ -34,7 +34,7 @@ iex(node1@127.0.0.1)5> Nexromancer.create_minions(pid, 5)
 Nexromancer.start_horde(pid)
 ```
 
-##Known bugs
+## Known bugs
 Crash when start_horde
 
 ```
@@ -52,7 +52,7 @@ Last message: :request
 State: %Nexromancer.Minion{http_client: HTTPoison, order: %Nexromancer.Order{body: nil, expectation: nil, headers: nil, method: :get, type: nil, url: "http://localhost:4000"}, state: :running, timer: HTTPoison}
 ```
 
-##TODO
+## TODO
 
 Distribute workers on all available nodes
 Add detection for nodedown/nodeup to rebalance workers
