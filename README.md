@@ -35,25 +35,10 @@ Nexromancer.start_horde(pid)
 ```
 
 ## Known bugs
-Crash when start_horde
-
-```
-12:45:01.132 [error] GenServer #PID<0.320.0> terminating
-** (ArgumentError) errors were found at the given arguments:
-
-  * 1st argument: not an integer
-
-    :erlang.send_after(HTTPoison, #PID<0.320.0>, :request)
-    (nexromancer 0.1.0) lib/nexromancer/minion.ex:45: Nexromancer.Minion.handle_info/2
-    (stdlib 4.0) gen_server.erl:1120: :gen_server.try_dispatch/4
-    (stdlib 4.0) gen_server.erl:1197: :gen_server.handle_msg/6
-    (stdlib 4.0) proc_lib.erl:240: :proc_lib.init_p_do_apply/3
-Last message: :request
-State: %Nexromancer.Minion{http_client: HTTPoison, order: %Nexromancer.Order{body: nil, expectation: nil, headers: nil, method: :get, type: nil, url: "http://localhost:4000"}, state: :running, timer: HTTPoison}
-```
 
 ## TODO
 
+* Make horde request interval configurable
 * Distribute workers on all available nodes
 * Add detection for nodedown/nodeup to rebalance workers
 
