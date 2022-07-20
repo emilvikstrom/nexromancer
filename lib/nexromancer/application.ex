@@ -25,7 +25,7 @@ defmodule Nexromancer.Application do
     opts = [strategy: :one_for_one, name: Nexromancer.Application.Supervisor]
     supervisor_result = Supervisor.start_link(children, opts)
 
-    Nexromancer.child_spec(name: Nexromancer)
+    Nexromancer.child_spec()
     |> Nexromancer.Supervisor.start_child()
 
     Nexromancer.Scribe.child_spec()

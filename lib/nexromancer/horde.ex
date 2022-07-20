@@ -13,8 +13,24 @@ defmodule Nexromancer.Horde do
     GenServer.start(__MODULE__, order, [])
   end
 
+  def start_link(order, timer, http_client) do
+    GenServer.start_link(__MODULE__, [order, timer, http_client], [])
+  end
+
+  def start_link(order) do
+    GenServer.start_link(__MODULE__, order, [])
+  end
+
+  def start_horde(pid) do
+    GenServer.call(pid, :start_horde)
+  end
+
   def size(pid) do
     GenServer.call(pid, :size)
+  end
+
+  def create_minions(pid, no_of_minions) do
+    GenServer.call(pid, {:create, no_of_minions})
   end
 
   @impl true
@@ -38,7 +54,7 @@ defmodule Nexromancer.Horde do
      %__MODULE__{horde | minions: new_minions ++ horde.minions, size: horde.size + no_of_minions}}
   end
 
-  def handle_call(:start, _from, horde) do
+  def handle_call(:start_horde, _from, horde) do
     started_minions =
       horde.minions
       |> Enum.reduce(0, fn pid, counter ->
