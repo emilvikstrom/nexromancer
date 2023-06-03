@@ -1,0 +1,16 @@
+<div class="create_swarm_live">
+  <.form for={@form} phx-submit="start-swarm" phx-change="validate" phx-target={@myself}>
+    <.input type="text" field={@form[:name]} label="Name of swarm" />
+    <.input type="text" field={@form[:url]} label="URL" />
+    <.input type="textarea" field={@form[:headers]} label="Set headers" />
+    <.input type="textarea" field={@form[:body]} label="Body" />
+    <.input type="select" field={@form[:method]} label="Method" options={@allowed_methods} />
+    <.input type="number" field={@form[:number_of_workers]} label="Number of workers" />
+
+    <%= if not @valid_json do %>
+      <.error><%= @error_msg %></.error>
+    <% end %>
+    <br />
+    <button class="rounded-md bg-pink-100 p-2">Start</button>
+  </.form>
+</div>

@@ -17,7 +17,7 @@ defmodule NexromancerWeb.Router do
   scope "/", NexromancerWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", RootLive
   end
 
   # Other scopes may use custom stacks.

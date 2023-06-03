@@ -1,0 +1,27 @@
+<div class="root">
+  <button phx-click="create-swarm">Create Swarm</button>
+
+  <%= if @state.create_swarm do %>
+    <.live_component
+      module={NexromancerWeb.Components.CreateSwarmLiveComponent}
+      id="create_swarm"
+    />
+  <% end %>
+
+  <table>
+    <thead>
+      <th>swarm_id</th>
+      <th>name</th>
+      <th>size</th>
+    </thead>
+    <tbody>
+      <%= for swarm <- @state.swarms do %>
+        <tr>
+          <td><%= swarm.id %></td>
+          <td><%= swarm.name %></td>
+          <td><%= length(swarm.workers) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
