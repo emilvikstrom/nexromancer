@@ -7,30 +7,30 @@ defmodule Nexromancer.Application do
 
   @impl true
   def start(_type, _args) do
-    topologies = [
-      example: [
-        strategy: Cluster.Strategy.LocalEpmd
-      ]
-    ]
-
     children = [
-      {Cluster.Supervisor, [topologies, [name: Nexromancer.ClusterSupervisor]]},
-      {Horde.Registry, [name: Nexromancer.Registry, keys: :unique, members: :auto]},
-      {Horde.DynamicSupervisor,
-       [name: Nexromancer.Supervisor, strategy: :one_for_one, members: :auto]}
+      # Start the Telemetry supervisor
+      NexromancerWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Nexromancer.PubSub},
+      # Start Finch
+      {Finch, name: Nexromancer.Finch},
+      # Start the Endpoint (http/https)
+      NexromancerWeb.Endpoint
+      # Start a worker by calling: Nexromancer.Worker.start_link(arg)
+      # {Nexromancer.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Nexromancer.Application.Supervisor]
-    supervisor_result = Supervisor.start_link(children, opts)
+    opts = [strategy: :one_for_one, name: Nexromancer.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
 
-    Nexromancer.child_spec()
-    |> Nexromancer.Supervisor.start_child()
-
-    Nexromancer.Scribe.child_spec()
-    |> Nexromancer.Supervisor.start_child()
-
-    supervisor_result
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  @impl true
+  def config_change(changed, _new, removed) do
+    NexromancerWeb.Endpoint.config_change(changed, removed)
+    :ok
   end
 end

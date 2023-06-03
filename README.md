@@ -1,46 +1,18 @@
 # Nexromancer
 
-Elxir application to make a distributed Load tester
+To start your Phoenix server:
 
-## Usage
-To run current version
+  * Run `mix setup` to install and setup dependencies
+  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
-Start Iex shell
-`iex --name node1@127.0.0.1 --cookie asdf -S mix`
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-```
-iex(node1@127.0.0.1)1> order = Nexromancer.Order.new("http://localhost:4000", :get)
-%Nexromancer.Order{
-  body: nil,
-  expectation: nil,
-  headers: nil,
-  method: :get,
-  type: nil,
-  url: "http://localhost:4000"
-}
+Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-iex(node1@127.0.0.1)2> order |> Nexromancer.create_horde
-:ok
+## Learn more
 
-iex(node1@127.0.0.1)3> nexromancer_state = Nexromancer.get_state
-%Nexromancer{hordes: [#PID<0.314.0>]}
-
-iex(node1@127.0.0.1)9> [pid] = nexromancer_state.hordes
-[#PID<0.314.0>]
-
-iex(node1@127.0.0.1)5> Nexromancer.create_minions(pid, 5)
-:ok
-
-Nexromancer.start_horde(pid)
-```
-
-## Known bugs
-
-## TODO
-
-* Make horde request interval configurable
-* Distribute workers on all available nodes
-* Add detection for nodedown/nodeup to rebalance workers
-
-
-
+  * Official website: https://www.phoenixframework.org/
+  * Guides: https://hexdocs.pm/phoenix/overview.html
+  * Docs: https://hexdocs.pm/phoenix
+  * Forum: https://elixirforum.com/c/phoenix-forum
+  * Source: https://github.com/phoenixframework/phoenix
