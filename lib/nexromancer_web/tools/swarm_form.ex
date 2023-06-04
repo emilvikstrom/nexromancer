@@ -32,7 +32,7 @@ defmodule NexromancerWeb.Tools.SwarmForm do
       :body,
       :number_of_workers
     ])
-    # |> validate_required([:id, :name, :headers, :method, :url, :body, :number_of_workers])
+    |> validate_required([:id, :name, :headers, :method, :url, :body, :number_of_workers])
     |> validate_body()
   end
 
@@ -44,7 +44,7 @@ defmodule NexromancerWeb.Tools.SwarmForm do
             []
 
           {:error, _} ->
-            [{:body, "body must be valid json"}]
+            [{:body, " must be valid json"}]
         end
 
       _field, _value ->

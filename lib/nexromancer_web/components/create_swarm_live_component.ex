@@ -18,7 +18,7 @@ defmodule NexromancerWeb.Components.CreateSwarmLiveComponent do
   end
 
   def handle_event("validate", %{"swarm_form" => swarm}, socket) do
-    changeset = socket.assigns.changeset |> SwarmForm.changeset(swarm)
+    changeset = socket.assigns.changeset |> SwarmForm.changeset(swarm) |> IO.inspect()
 
     socket =
       changeset
@@ -27,10 +27,10 @@ defmodule NexromancerWeb.Components.CreateSwarmLiveComponent do
           validation_error(socket, errors)
 
         _changeset ->
-          assign(socket, valid_json: true, error_msg: "")
+          assign(socket, valid_json: true, error_msg: "", changeset: changeset)
       end
 
-    {:noreply, assign(socket, form: to_form(changeset), changeset: changeset)}
+    {:noreply, assign(socket, form: to_form(changeset))}
   end
 
   def handle_event(
@@ -54,8 +54,8 @@ defmodule NexromancerWeb.Components.CreateSwarmLiveComponent do
 
   defp validation_error(socket, errors) do
     error_msg =
-      for {_, {error, _}} <- errors, into: "" do
-        "#{error}\n"
+      for {field, {error, _}} <- errors, into: "" do
+        "#{field} #{error}\n"
       end
 
     assign(socket, valid_json: false, error_msg: error_msg)
