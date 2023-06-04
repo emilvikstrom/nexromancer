@@ -18,7 +18,7 @@ defmodule NexromancerWeb.Components.CreateSwarmLiveComponent do
   end
 
   def handle_event("validate", %{"swarm_form" => swarm}, socket) do
-    changeset = socket.assigns.changeset |> SwarmForm.changeset(swarm) |> IO.inspect()
+    changeset = socket.assigns.changeset |> SwarmForm.changeset(swarm)
 
     socket =
       changeset
@@ -36,10 +36,13 @@ defmodule NexromancerWeb.Components.CreateSwarmLiveComponent do
   def handle_event(
         "start-swarm",
         %{"swarm_form" => _swarm},
-        %{assigns: %{valid_json: true, changeset: changeset}} = socket
+        %{assigns: %{valid_json: true, changeset: changeset, root_pid: pid}} = socket
       ) do
-    Nexromancer.Swarm.raise(changeset)
-    IO.inspect(socket, label: :success)
+    swarm = Nexromancer.Swarm.raise(changeset)
+    send(pid, {:add_swarm, swarm})
+
+    IO.inspect(socket.assigns)
+
     {:noreply, socket}
   end
 
@@ -48,7 +51,6 @@ defmodule NexromancerWeb.Components.CreateSwarmLiveComponent do
         %{"swarm_form" => _swarm},
         socket
       ) do
-    IO.inspect(socket, label: :failure)
     {:noreply, socket}
   end
 

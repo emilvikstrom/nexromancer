@@ -13,11 +13,22 @@ defmodule NexromancerWeb.RootLive do
   end
 
   def handle_event("create-swarm", _, socket) do
-    {:noreply, assign(socket, state: socket.assigns.state |> set_create_swarm(true))}
+    {:noreply,
+     assign(socket, state: socket.assigns.state |> set_create_swarm(true), root_pid: self())}
   end
 
-  defp add_swarm_to_state(%State{swarms: swarms} = state) do
-    %State{state | swarms: [%Swarm{id: 1, name: "test", workers: [1, 2, 3]} | swarms]}
+  def handle_info({:add_swarm, %Swarm{} = swarm}, socket) do
+    {:noreply,
+     assign(socket,
+       state:
+         socket.assigns.state
+         |> add_swarm_to_state(swarm)
+         |> set_create_swarm(false)
+     )}
+  end
+
+  defp add_swarm_to_state(%State{swarms: swarms} = state, swarm_to_add) do
+    %State{state | swarms: [swarm_to_add | swarms]}
   end
 
   defp set_create_swarm(state, boolean) do
